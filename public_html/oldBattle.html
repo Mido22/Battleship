@@ -1,0 +1,902 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Battleship</title>
+
+<SCRIPT type="text/javascript" language = "JavaScript">
+
+
+
+function hcrst(){
+	hc = -1;
+	hclast = -1;
+	hcnext = -1;
+	hcprev = -1;
+	hcod = 0;
+	hcoway = 0;
+	hclgth = 0;
+}
+
+function hcfn(){
+
+	if(hc == -1){
+		hcrst();
+		var hcpos = getPos(arrylgth(hctlist))-1;
+		hcpos = hctlist[hcpos];
+		hctlist = remEle(hctlist,hcpos);
+		if(chkEle(hclist,hcpos)){
+			hc = hcpos;
+			hclist = remEle(hclist,hcpos);			
+			ChgBrdhc(hcpos,1);
+			if(arrylgth(hclist)==0)
+				gameover(0);
+			hclgth++;
+			hhlist.push(hc);
+			hcfn();			
+		}
+		else
+			ChgBrdhc(hcpos,0);
+		}	
+	
+	else if(hcoway==0){
+		if(hclast==-1){
+			var stepset=[(0-gridSize),1,gridSize,-1];
+			stepsize = getPos(arrylgth(stepset))-1;
+			stepsize=stepset[stepsize];
+			}
+		hcprev=hcnext;
+		hcnext=hclast+stepsize;
+		var temp22 = (!chkEle(hctlist,hcnext))&&(!chkEle(hhlist,hcnext));
+		var temp23 = (!chkEle(hctlist,hcnext))&&(chkEle(hhlist,hcnext));
+		if((!closeness(hclast,hcnext))||temp22){
+			hcoway++;
+			stepsize=0-stepsize;
+			hcnext=hc;	
+			hcfn();
+			}
+		else if(temp23){
+			hclast=hcnext;
+			hclgth++;
+			if(hclgth==maxEle(shiplist)){
+				shiplist=remEle2(shiplist, hclgth);
+				hcrst();
+				}
+			hcfn();
+			}
+		else if(chkEle(hclist,hcnext)){
+			ChgBrdhc(hcnext,1);
+			hclist = remEle(hclist,hcnext);
+			if(arrylgth(hclist)==0)
+				gameover(0);
+			hclast = hcnext;
+			hclgth++;
+			hhlist.push(hcnext);
+			if(hclgth==maxEle(shiplist)){
+				shiplist=remEle2(shiplist, hclgth);
+				hcrst();
+				}
+			hcfn();
+			}
+		else{
+			hctlist = remEle(hctlist,hcnext);
+			ChgBrdhc(hcnext,0);
+			hcoway++;
+			stepsize=0-stepsize;
+			hcnext=hc;	
+			}
+		}
+	
+	else if((hcoway==1)&&(hcod==0)){
+		hcprev=hcnext;
+		hcnext+=stepsize;
+		var temp22 = (!chkEle(hctlist,hcnext))&&(!chkEle(hhlist,hcnext));
+		var temp23 = (!chkEle(hctlist,hcnext))&&(chkEle(hhlist,hcnext));
+		if((!closeness(hclast,hcnext))||temp22){
+			if(hclast==hc){
+				if(stepsize>0)
+					stepsize=(stepsize==1)?(0-gridSize):-1;
+				else
+					stepsize=(stepsize==-1)?gridSize:1;
+				hcnext=hclast;
+				hcod++;
+				hcfn();
+				}
+			else{
+				shiplist=remEle2(shiplist, hclgth);
+				hcrst();
+				hcfn();
+				}
+			}
+		else if(temp23){
+			hclast=hcnext;
+			hclgth++;
+			if(hclgth==maxEle(shiplist)){
+				shiplist=remEle2(shiplist, hclgth);
+					hcrst();
+				}
+			hcfn();
+			}
+		else if(chkEle(hclist,hcnext)){	
+			hctlist = remEle(hctlist,hcnext);
+			ChgBrdhc(hcnext,1);
+			if(arrylgth(hclist)==0)
+				gameover(0);
+			hclast = hcnext;
+			hclgth++;
+			hhlist.push(hcnext);
+			if(hclgth==maxEle(shiplist)){
+				shiplist=remEle2(shiplist, hclgth);
+				hcrst();
+				}
+			hcfn();
+			}
+		else{	
+			hctlist = remEle(hctlist,hcnext);
+			ChgBrdhc(hcnext,0);
+			if(hclast==hc){
+				if(stepsize>0)
+					stepsize=(stepsize==1)?(0-gridSize):-1;
+				else
+					stepsize=(stepsize==-1)?gridSize:1;
+				hcnext=hclast;
+				hcod++;
+			}				
+			else{
+				shiplist=remEle2(shiplist, hclgth);
+				hcrst();
+				}
+			}
+		}
+	
+	else if((hcoway==1)&&(hcod==1)){
+		hcprev=hcnext;
+		hcnext+=stepsize;
+		var temp22 = (!chkEle(hctlist,hcnext))&&(!chkEle(hhlist,hcnext));
+		var temp23 = (!chkEle(hctlist,hcnext))&&(chkEle(hhlist,hcnext));
+		if((!closeness(hclast,hcnext))||temp22){
+			hcoway++;
+			stepsize=0-stepsize;
+			hcnext=hc;
+			hcfn();
+			}
+		else if(temp23){
+			hclast=hcnext;
+			hclgth++;
+			if(hclgth==maxEle(shiplist)){
+				shiplist=remEle2(shiplist, hclgth);
+				hcrst();
+				}
+			hcfn();
+			}
+		else if(chkEle(hclist,hcnext)){	
+			hctlist = remEle(hctlist,hcnext);
+			ChgBrdhc(hcnext,1);
+			if(arrylgth(hclist)==0)
+				gameover(0);
+			hclast = hcnext;
+			hclgth++;
+			hhlist.push(hcnext);
+			if(hclgth==maxEle(shiplist)){
+				shiplist=remEle2(shiplist, hclgth);
+				hcrst();
+				}
+			hcfn();
+			}
+		else{	
+			hctlist = remEle(hctlist,hcnext);
+			ChgBrdhc(hcnext,0);
+			hcoway++;
+			stepsize=0-stepsize;
+			hcnext=hc;
+			}
+		}	
+	
+	else if(hcoway==2){
+		hcprev=hcnext;
+		hcnext+=stepsize;
+		var temp22 = (!chkEle(hctlist,hcnext))&&(!chkEle(hhlist,hcnext));
+		var temp23 = (!chkEle(hctlist,hcnext))&&(chkEle(hhlist,hcnext));
+		if((!closeness(hclast,hcnext))||temp22){
+			shiplist=remEle2(shiplist, hclgth);
+			hcrst();
+			hcfn();
+			}
+		else if(temp23){
+			hclast=hcnext;
+			hclgth++;
+			if(hclgth==maxEle(shiplist)){
+				shiplist=remEle2(shiplist, hclgth);
+				hcrst();
+				}
+			hcfn();
+			}
+		else if(chkEle(hclist,hcnext)){	
+			hctlist = remEle(hctlist,hcnext);
+			ChgBrdhc(hcnext,1);
+			if(arrylgth(hclist)==0)
+				gameover(0);
+			hclast = hcnext;
+			hclgth++;
+			hhlist.push(hcnext);
+			if(hclgth==maxEle(shiplist)){
+				shiplist=remEle2(shiplist, hclgth);
+				hcrst();
+				}
+			hcfn();
+			}
+		else{	
+			hctlist = remEle(hctlist,hcnext);
+			ChgBrdhc(hcnext,0);
+			hcrst();
+			}
+		}
+	
+	else{
+		alert("Still there is some bug, FIX IT.");
+		hcrst();		
+	}
+}
+
+function loadfn(){
+	fnggl('headText');
+	chgggl('headText');
+	var prompt1=prompt("Please enter your name","");
+	if (prompt1!=null && prompt1!="")
+		document.getElementById("pname").value=prompt1;	
+}
+
+function hcmkBrd(){
+	if(gameCount!=0 && clickCount!=0){
+		var stnewgm=confirm("Are You sure you want to start new game ?");
+		if(!stnewgm)
+			return false;		
+	}
+	
+	
+	gridSize = document.getElementById("gridSize").value;
+	if((gridSize/2)<8)
+		maxShipsize = (gridSize%2==0)?(gridSize/2):((gridSize-1)/2);
+	else
+		maxShipsize = 8;
+	
+	var posTotal = gridSize*gridSize;
+	var inrhtml="<table align=\"center\"  style=\"background-color:#FFFFFF;\" >";
+	for(var i=1;i<=posTotal;i++){
+		hctlist.push(i);
+		if(i%gridSize==1)
+			inrhtml+="<tr>";	
+		inrhtml+="<td id=\"thc"+i+"\"><button id=\"hc"+i+"\" style=\"background-color:#FFFFFF;\" onClick=\"return hcChgBrd("+i+");\">&nbsp - &nbsp</button></td>";
+		if(i%gridSize==0)
+			inrhtml+="</tr>";
+}
+	inrhtml+="</table><br/><br/><button onClick=\"return addShip();\">Add Ship</button><button onClick=\"return startGame();\">Continue</button>";
+	document.getElementById("board").innerHTML=inrhtml;
+	return false;
+}
+
+function ChgBrdhc(ele,type){
+	var inrhtml="<span id=\"hc"+ele+"\" style=\"background-color:#";	
+	if(type==1)
+		inrhtml+="FF0000;\" >&nbsp X &nbsp";
+	else
+		inrhtml+="FFFFFF;\" >&nbsp &nbsp &nbsp";
+	inrhtml+="</span>";
+	document.getElementById("thc"+ele).innerHTML=inrhtml;
+}
+
+function hcChgBrd(ele){
+	var inrhtml="<button id=\"hc"+ele+"\" style=\"background-color:#FFFFFF;\" onClick=\"hcChgBrd("+ele+");\">&nbsp - &nbsp</button>";	
+	if(arrylgth(shiptmp)==0){
+		shiptmp.push(ele);
+		inrhtml="<button id=\"hc"+ele+"\" style=\"background-color:#9966FF;\" onClick=\"hcChgBrd("+ele+");\">&nbsp - &nbsp</button>";
+	}
+	else{	
+		if(chkEle(shiptmp,ele)){
+			if((ele==maxEle(shiptmp))||(ele==minEle(shiptmp))){
+				shiptmp=remEle(shiptmp,ele);
+			}
+			else
+				inrhtml="<button id=\"hc"+ele+"\" style=\"background-color:#9966FF;\" onClick=\"hcChgBrd("+ele+");\">&nbsp - &nbsp</button>";
+		}
+		else{
+			if(closeness2(shiptmp,ele)&&(arrylgth(shiptmp)<=maxShipsize)){
+				shiptmp.push(ele);
+				inrhtml="<button id=\"hc"+ele+"\" style=\"background-color:#9966FF;\" onClick=\"hcChgBrd("+ele+");\">&nbsp - &nbsp</button>";
+			}		
+		}
+	}	
+	document.getElementById("thc"+ele).innerHTML=inrhtml;
+}
+
+
+
+function addShip(){
+	var temp22=arrylgth(shiptmp);
+	if(temp22<1)
+		alert("First select the Ship Co-ordinates.");
+	if(temp22==1)
+		alert("Sorry, the minimum ship size is 2.");
+	else if(temp22>1){
+		shiplist.push(temp22);
+		shiparry=addArry(shiparry, shiptmp);
+		for(var i in shiptmp)
+			document.getElementById("thc"+shiptmp[i]).innerHTML="<button id=\"hc"+shiptmp[i]+"\" style=\"background-color:#FFFFFF;\" onClick=\"hcChgBrd("+shiptmp[i]+");\">&nbsp - &nbsp</button>";
+		shiptmp=[];
+		//alert("shiparry="+shiparry);
+	}
+	else{	}
+	return false;
+}
+
+function startGame(){
+	
+	if(arrylgth(shiparry)==0){
+		alert("How can there be a battle without any ships!!!");
+		return false;		
+	}
+
+	alert("New Game Has Begun");
+	gameCount++;
+	for(var i in shiplist)
+		shipCoor=addArry(shipCoor,makeShips(shiplist[i]));
+	target=shipCoor;
+	hclist=shiparry;
+	makeBoard();	
+	return false;
+}
+
+function fnSort(a, b){
+return a - b;
+}
+
+
+function checkGrid(){
+	var flag=false;
+	for(var i=2;i<=maxShipsize;i++){
+		if(document.getElementById("ship"+i).value>0){
+			flag = true;
+			break;
+		}			
+	}			
+	return flag;
+}
+
+function getPos(pos1){
+	var pos2=pos1;
+	var rand1=Math.random();
+	for(var i=1;i<pos1;i++){
+		if(rand1<(i/pos1)){
+			pos2=i;
+			break;
+		}
+	}
+	return pos2;
+}
+
+function addArry(arry1,arry2){
+	for(var i in arry2){
+		if(!chkEle(arry1,arry2[i]))
+			arry1.push(arry2[i]);
+	}
+	return arry1;
+}
+
+function remEle(arry,ele){
+	var arry2=[];
+	for(var i in arry){
+		if(arry[i]!=ele)
+			arry2.push(arry[i]);
+	}
+	return arry2;
+}
+
+function remEle2(arry,ele){
+	var arry2=[];
+	var flag=false;
+	for(var i in arry){
+		if((arry[i]!=ele)||flag)
+			arry2.push(arry[i]);
+		else
+			flag=true;
+	}
+	return arry2;
+}
+
+function chkEle(arry,ele){
+	var flag= false;
+	for(var i in arry){
+		if(arry[i]==ele){
+			flag=true;
+			break;
+		}
+	}
+	return flag;
+}
+
+function maxEle(arry){
+	var imax=arry[0];
+	for(var i in arry)
+		imax=Math.max(imax,arry[i]);
+	return imax;
+}
+
+function minEle(arry){
+	var imin=arry[0];
+	for(var i in arry)
+		imin=Math.min(imin,arry[i]);
+	return imin;
+}
+
+function closeness(ele1,ele2){
+	var a=ele1%gridSize;
+	var b=ele2%gridSize;
+	var c=(a>b)?(a-b):(b-a);
+	var d=(ele1>ele2)?(ele1-ele2):(ele2-ele1);
+	if((ele1<1)||(ele2<1)||(ele1>gridSize*gridSize)||(ele2>gridSize*gridSize))
+		return false;		
+	else if((c==0)&&(d==gridSize))
+		return true;
+	else if((d==1)&&(!(a==0 && b==1))&&(!(b==0 && a==1)))
+		return true;
+	else 
+		return false;	
+}
+
+function closeness2(arry,ele){
+	var smax=maxEle(arry);
+	var smin=minEle(arry);
+	var temp22=arrylgth(shiptmp);
+	if(!(closeness(ele,smax)||closeness(ele,smin)))
+		return false;
+	if((temp22<2)&&(closeness(ele,smax)||closeness(ele,smin)))
+		return true;
+	var steptmp=(smax-smin)/(temp22-1);
+	if(((smin-ele)==steptmp)||((ele-smax)==steptmp))
+		return true;
+	else 
+		return false;	
+}
+	
+function makeShips(shipSize){
+
+	var posTotal = gridSize*gridSize;
+	var posCentre=Math.round(Math.random()*posTotal);
+	var posCount = 1;
+	var posTemp;
+	var tempCount=0;
+	var posSet=[];
+	if(posCentre==0)
+		posCentre=1;
+	var posPossible = [posCentre];
+	if(Math.random()>.5){
+		//vertical
+		 tempCount=0;
+		 posTemp=posCentre-gridSize;
+		while((posTemp>=1)&&(tempCount<shipSize-1)){
+			posPossible.push(posTemp);
+			posTemp-=gridSize;
+			posCount++;
+			tempCount++;
+		}
+		
+		 tempCount=0;
+		 posTemp=posCentre+(gridSize*gridSize)/gridSize;
+		while((posTemp<=posTotal)&&(tempCount<shipSize-1)){
+			posPossible.push(posTemp);
+			posTemp+=(gridSize*gridSize)/gridSize;
+			posCount++;
+			tempCount++;
+		}		
+	}	
+	else{
+		//horizondal
+		var posBegin=posCentre-posCentre%gridSize+1;
+		var posEnd=posBegin+gridSize-1;
+		 tempCount=0;
+		 posTemp=posCentre-1;
+			while((posTemp>=posBegin)&&(tempCount<shipSize-1)){
+				posPossible.push(posTemp);
+				posTemp--;
+				posCount++;
+				tempCount++;
+			}
+			 tempCount=0;
+			 posTemp=posCentre+1;
+			while((posTemp<=posTotal)&&(tempCount<shipSize-1)){
+				posPossible.push(posTemp);
+				posTemp++;
+				posCount++;
+				tempCount++;
+			}		
+	}
+	
+	posCount=posCount-shipSize+1;
+	posCount=getPos(posCount)-1;	
+	tempCount=0;
+	posPossible.sort(fnSort);
+	while(tempCount<shipSize){
+		posSet.push(posPossible[posCount]);
+		posCount++;
+		tempCount++;
+	}
+	return posSet;
+}
+
+function arrylgth(arry){
+	var j=0;
+	for(var i in arry)
+		j++;
+	return j;
+}
+
+function makeBoard(){
+
+	var posTotal = gridSize*gridSize;
+	var inrhtml="<table> <tr><th>Your Board</th> <th>Your Opponent's</th></tr> <tr><td>";
+	inrhtml+="<table align=\"center\"  style=\"background-color:#FFFFFF;\" >";
+	for(var i=1;i<=posTotal;i++){
+		
+		if(i%gridSize==1)
+			inrhtml+="<tr>";	
+		if(chkEle(shiparry,i))
+			inrhtml+="<td id=\"thc"+i+"\"  style=\"background-color:#7094FF;\" ><span id=\"hc"+i+"\" style=\"background-color:#0066FF;\" >&nbsp O &nbsp</span></td>";
+		else
+			inrhtml+="<td id=\"thc"+i+"\"  style=\"background-color:#EBEBFF;\" ><span id=\"hc"+i+"\" style=\"background-color:#7094FF;\" >&nbsp - &nbsp</span></td>";
+		if(i%gridSize==0)
+			inrhtml+="</tr>";
+	}
+	inrhtml+="</table></td><td>";
+	inrhtml+="<table align=\"center\"  style=\"background-color:#1E90FF;\" >";
+	for(var i=1;i<=posTotal;i++){
+		
+		if(i%gridSize==1)
+			inrhtml+="<tr>";	
+		inrhtml+="<td id=\"t"+i+"\"><button id=\""+i+"\" style=\"background-color:#00BFFF;\" onClick=\"chgBoard("+i+");\">&nbsp ~ &nbsp</button></td>";	
+		if(i%gridSize==0)
+			inrhtml+="</tr>";
+	}
+
+	inrhtml+="</table></td></tr></table>";
+	
+	document.getElementById("board").innerHTML=inrhtml;
+	mkColset();
+	waves();
+	for(var i=1;i<=posTotal;i++){		
+		if(Math.random()>.5)
+			shakeright(i);
+		else
+			shakeleft(i);
+	}
+}
+
+function chgBoard(ele){
+	var inrhtml;
+	clickCount++;
+	rest+="<div id=\""+ele+"\"></div>";
+	if(chkEle(target,ele)){
+		hitList.push(ele);
+		target=remEle(target,ele);
+		inrhtml="<span style=\"color:red;\">&nbsp&nbspX&nbsp&nbsp</span>";
+		if(arrylgth(hitList)==arrylgth(shipCoor)){
+			gameover(1);		
+		}
+	}
+	else{
+		hcfn();
+		missList.push(ele);
+		inrhtml="&nbsp&nbsp&nbsp";
+	}
+	document.getElementById('rest').innerHTML=rest;
+	document.getElementById("t"+ele).innerHTML=inrhtml;
+}
+
+function gameover(ele){
+	var inrhtml;
+	if(ele==0)
+		inrhtml="Too Bad, You have lost. Game Over :(";
+	else{
+		//alert("Congrats "+document.getElementById("pname").value+", You have won. ");
+		inrhtml ="<h2><table align=\"center\"><tr><td>Congrats "+document.getElementById("pname").value+", You have won.  :) </td></tr><tr><td id=\"iText\">Your Performance = " ;
+		var awelvl = arrylgth(hhlist)/arrylgth(shiparry);
+		if(awelvl<.3)
+			inrhtml+="God Level";
+		else if (awelvl<.4)
+			inrhtml+="Awesome";
+		else if(awelvl<.5)
+			inrhtml+="Good";
+		else if(awelvl<.6)
+			inrhtml+="Nice";
+		else if(awelvl<.7)
+			inrhtml+="Average";
+		else if(awelvl<.75)
+			inrhtml+="Below Average";
+		else if(awelvl<.8)
+			inrhtml+="Bad, Really Bad";
+		else
+			inrhtml+="New Low";
+		inrhtml+=".</td></tr></table></h2>";
+	}
+	document.getElementById("board").innerHTML=inrhtml;	
+	resetAll();
+	fnbtxt('iText');
+	chgbtxt('iText');
+							
+		
+}
+
+
+function waves()
+{
+	chgColset();
+	for(var i=1;i<=gridSize*gridSize;i++){
+		var y = cColorset[i];
+		if(y>100)
+			y=y-100;
+		document.getElementById(i).style.background=myColours[y];
+		document.getElementById("t"+i).style.background=myColours[y];
+		}
+
+
+	timer1=setTimeout("waves()",500);
+}
+
+function mkColset(){
+	cColorset=new Array();
+	cColorset[0]=0;
+	cColorset[1]=1+(gridSize*gridSize)/gridSize;
+	for(var i=2;i<=gridSize*gridSize;i++){
+		var x=0;
+		if(i<gridSize+1)
+			x=cColorset[i-1];
+		else
+			x=cColorset[i-gridSize];
+		
+		if(x==11)
+		     cColorset[i]=110;
+		else if(x==101)
+		     cColorset[i]=0;
+		else if(x>100)
+		     cColorset[i]=x-1;
+		else
+		     cColorset[i]=x+1;
+	}
+	cColorset[0]=0;
+	cColorset[1]=1+(gridSize*gridSize)/gridSize;
+	
+	for(var i=gridSize+1;i<=(2*gridSize);i++){
+		var x=0;
+		x=cColorset[i-gridSize];	
+		if(x==11)
+		     cColorset[i]=110;
+		else if(x==101)
+		     cColorset[i]=0;
+		else if(x>100)
+		     cColorset[i]=x-1;
+		else
+		     cColorset[i]=x+1;		
+		
+	}
+
+	for(var i=2*gridSize+1;i<=gridSize*gridSize;i++)
+		cColorset[i]=cColorset[i-2*gridSize];
+			
+}
+
+function chgColset(){
+for(var i=1;i<cColorset.length;i++){
+var x=cColorset[i];
+if(x==11)
+     cColorset[i]=110;
+else if(x==101)
+     cColorset[i]=0;
+else if(x>100)
+     cColorset[i]=x-1;
+else
+     cColorset[i]=x+1;
+        
+     }	
+}
+
+function stoptimer()
+{
+	alert("Thanks for the playing the game.");
+	clearTimeout(timer1);
+	clearTimeout(timer2);
+	clearTimeout(timer3);
+	clearTimeout(timer4);
+}
+function shakeleft(idName)
+{
+document.getElementById(idName).style.position="relative";
+document.getElementById(idName).style.left="3px";
+timer2=setTimeout("shakeright('"+idName+"')",200);
+}
+function shakeright(idName)
+{
+document.getElementById(idName).style.left="0px";
+timer2=setTimeout("shakeleft('"+idName+"')",200);
+}
+function bgChange(bg)
+{
+document.body.style.background=bg;
+}
+function chgbtxt(idName){
+	if(btflag){
+		if(bcolset[4]==4)
+			btflag=false;
+		for(var i=0;i<bcolset.length-1;i++)
+			bcolset[i]=bcolset[i+1];
+	}
+	else{
+		if(bcolset[bcolset.length-8]==4)
+			btflag=true;
+		for(var i=bcolset.length-1;i>0;i--)
+			bcolset[i]=bcolset[i-1];	
+	}
+
+	for(var i=4;i<bcolset.length-4;i++)
+		document.getElementById(idName+(i-4)).style.color=textColset[bcolset[i-4]];
+	timer3=setTimeout("chgbtxt('"+idName+"')",150);
+}
+
+function addSpan(idName){
+	var oldInnr=document.getElementById(idName).innerHTML;
+	var inrhtml="";
+	count=0;
+	for(var i=0;i<oldInnr.length;i++){
+		if(oldInnr[i+1]==" "){
+			inrhtml+="<span id="+idName+count+">"+oldInnr[i]+"&nbsp</span>";
+			count++;
+			i++;
+		}
+		else{
+			inrhtml+="<span id="+idName+count+">"+oldInnr[i]+"</span>";
+			count++;			
+		}
+	}
+	document.getElementById(idName).innerHTML=inrhtml;
+	return count;
+}
+
+function fnggl(idName){
+	var oleng=addSpan(idName);
+	gcolset=[];
+	for(var i=0;i<oleng;i++){
+		gcolset[i]=i%6;
+		document.getElementById(idName+i).style.color=googleColours[i%6];		
+	}
+}
+
+function chgggl(idName){
+	for(var i=0;i<gcolset.length;i++){
+		gcolset[i]=(gcolset[i]+1)%6;
+		document.getElementById(idName+i).style.color=googleColours[gcolset[i]];		
+	}
+	timer4=setTimeout("chgggl('"+idName+"')",500);
+}
+
+function fnbtxt(idName){
+	var oleng=addSpan(idName);
+	bcolset=[];
+	for(var i=0;i<oleng+8;i++){
+		if(i<9)
+			bcolset[i]=i;
+		else
+			bcolset[i]=0;		
+	}
+
+	for(var i=0;i<oleng;i++)
+		document.getElementById(idName+i).style.color=textColset[bcolset[i+4]];
+}
+
+function resetAll(){
+
+	rest="";
+	shipCount=0;
+	clickCount=0;
+	shipCoor=[];
+	shipleft=[];
+	hitList=[];
+	missList=[];
+	clickCount = 0;
+	hc = -1;
+	hclast = -1;
+	hcnext = -1;
+	hcod = 0;
+	hcoway = 0;
+	hclist = [];
+	hctlist = [];
+	hclgth = 0;
+	hhlist = [];
+	shiparry = [];
+	shiptmp = [];
+	shiplist = [];
+	stepsize = 1;
+	hcprev = -1;
+}
+
+var timer1;
+var timer2;
+var timer3;
+var timer4;
+var gridSize;
+var shipCount;
+var target;
+var hc = -1;
+var hclast = -1;
+var hcnext = -1;
+var hcprev = -1;
+var hclgth = 0;
+var gameCount 	= 0;
+var clickCount = 0;
+var hcod = 0;
+var hcoway = 0;
+var stepsize = 1;
+var maxShipsize = 8;
+var btflag = false;
+var shipCoor=[];
+var hitList=[];
+var missList=[];
+var hclist = [];
+var hctlist = [];
+var hhlist = [];
+var shiparry = [];
+var shiptmp = [];
+var shiplist = [];
+var cColorset = [];
+var gcolset = [];
+var bcolset = [];
+var rest="";
+var myColours = ["#00CCFF","#00BDFA","#00ADF5","#009EF0","#008FEB","#0087E7","#0078E3","#0070EF","#0061DB","#0052D6","#0042D1","#0033CC"];
+var myColours = ["#00CCFF","#00BDFA","#00ADF5","#009EF0","#008FEB","#0087E7","#0078E3","#0070EF","#0061DB","#0052D6","#0042D1","#0033CC"];
+var googleColours = ['blue','red','orange','blue','green','red'];
+var textColset = ["#000000","#181818","#707070","#C8C8C8","#FFFFFF","#C8C8C8","#707070","#181818","#000000" ];
+
+
+//Welcome to Battleship Mania
+</SCRIPT>
+</head>
+<body onload="loadfn();" onunload="stoptimer();" style="background-color:#000000;">
+<form name="Definition" id="Definition" action="">
+
+<table height="25" style="float:right;">
+ <tr>  <td width="20"  onmouseover="bgChange('red')"  onmouseout="bgChange('black')"  bgcolor="red">  </td>
+  <td width="20"  onmouseover="bgChange('yellow')"  onmouseout="bgChange('black')"  bgcolor="yellow">  </td>
+  <td width="20" onmouseover="bgChange('blue')" onmouseout="bgChange('black')"  bgcolor="blue">  </td></tr></table>
+<table border="0" style="width:1250px;">
+<tr>
+<td colspan="2" style="background-color:#6495ED;text-align:center;">
+<h1 id="headText" >Welcome to Battleship Mania</h1>
+</td>
+</tr>
+
+<tr valign="top">
+<td style="background-color:#87CEFA;width:300px;text-align:center;">
+<b>Game Details</b>
+<table style="text-align:center;">
+<tr><td>Name  :</td><td>  <input type="text" id="pname"></td></tr>
+<tr><td>Board Size :</td><td><select id="gridSize" >
+<option value="8">8</option><option value="9">9</option><option value="10" selected="selected">10</option>
+<option value="11">11</option><option value="12">12</option><option value="13">13</option>
+<option value="14">14</option><option value="15">15</option><option value="16">16</option>
+<option value="17">17</option><option value="18">18</option><option value="19">19</option>
+<option value="20">20</option></select> </td></tr>
+</table><br/><br/><table style="text-align:center;">
+
+<tr><td><button onClick="return hcmkBrd();">Start New Game</button></td></tr></table>
+</td>
+<td style="background-color:#eeeeee;height:720px;width:950px;text-align:center;vertical-align:middle;">
+<div id="board"></div></td>
+</tr>
+
+<tr>
+<td colspan="2" style="background-color:#778899;text-align:right;">
+<marquee behavior="alternate" scrollamount="3"  style="background-color:#778899;">Copyright © Ban Mido    2012.</marquee></td>
+</tr>
+</table>
+
+<div id="rest"></div>
+</form>
+</body>
+</html>
