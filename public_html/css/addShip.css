@@ -1,0 +1,35 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jul 2, 2014, 7:31:47 PM
+    Author     : mido
+*/
+
+#nameDiv{
+    margin-left: auto;
+    margin-right: auto;    
+    font-weight: bold
+}
+
+
+#nameDiv input[type="text"]{
+	background: url('../img/formname.png') #fff no-repeat 5px;
+	padding-left: 39px;
+	margin-bottom: 10px;
+	color: black;
+	height: 29px;
+	border-radius: 3px;
+	width: 89%;
+}
+
+
+#nameDiv input[type="number"]{
+	margin-bottom: 10px;
+	color: black;
+	height: 29px;
+	border-radius: 3px;
+	width: 89%;
+}
