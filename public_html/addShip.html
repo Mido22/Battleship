@@ -16,16 +16,17 @@ and open the template in the editor.
         <script src="js/jquery-2.1.1.min.js"></script>
         <script src="js/angular.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
+        <script src="js/addShip.js"></script>
     </head>
-    <body>
+    <body  ng-controller="addShipCtrl">
         <div  class="container">
             <div class="row">
                 <h1>Welcome to the Battleship</h1>
                 <form>
                     <div id="nameDiv">
                         <input type="text" placeholder="Captain's  Name e.g Monkey D. Luffy" ng-model="capName"/>
-                        <br/>
-                        <input type="number" placeholder="Board Size:" ng-model="boardSize" value="10"/>
+                        <br/><br/><br/><br/>
+                        <span>Board Size: </span><span><input type="number" ng-model="boardSize"/></span>
                     </div>
                 </form>
             </div>
