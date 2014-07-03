@@ -21,12 +21,22 @@ and open the template in the editor.
     <body  ng-controller="addShipCtrl">
         <div  class="container">
             <div class="row">
-                <h1>Welcome to the Battleship</h1>
                 <form>
-                    <div id="nameDiv">
-                        <input type="text" placeholder="Captain's  Name e.g Monkey D. Luffy" ng-model="capName"/>
+                    <div id="nameDiv" class="centreBlock">
+                        <h1>Welcome to the Battleship</h1>
+                        <br/>
+                        <span>Captain's  Name&nbsp;&nbsp;:&nbsp;&nbsp; </span><span> <input type="text" placeholder="Monkey D. Luffy" ng-model="capName"/></span>
                         <br/><br/><br/><br/>
-                        <span>Board Size: </span><span><input type="number" ng-model="boardSize"/></span>
+                        <span>Board Size &nbsp;&nbsp;:&nbsp;&nbsp; </span><span><input type="number" ng-model="boardSize" ng-change="makeTable()"/></span>
+                    </div>
+                    <br/><br/><br/>
+                    <div id="addBoard" class="row">
+                        <div id="board" class="col-lg-10">
+                            These is where the board should be...
+                        </div>        
+                        <div  class="col-lg-2">
+                            <button > <i class="glyphicon glyphicon-floppy-save" id="addShipButton" ng-click="showAlert($event)">&nbsp;&nbsp; &nbsp;&nbsp; Add Ship</i></button> 
+                        </div>                
                     </div>
                 </form>
             </div>

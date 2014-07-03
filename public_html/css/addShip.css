@@ -8,10 +8,16 @@ and open the template in the editor.
     Author     : mido
 */
 
-#nameDiv{
+#nameDiv{ 
+    font-weight: bold;
+}
+
+
+.centreBlock  {
+    display: block; 
     margin-left: auto;
-    margin-right: auto;    
-    font-weight: bold
+    margin-right: auto;   
+    text-align: center;
 }
 
 
@@ -20,9 +26,8 @@ and open the template in the editor.
 	padding-left: 39px;
 	margin-bottom: 10px;
 	color: black;
-	height: 29px;
+	height: 39px;
 	border-radius: 3px;
-	width: 89%;
 }
 
 
@@ -31,5 +36,28 @@ and open the template in the editor.
 	color: black;
 	height: 29px;
 	border-radius: 3px;
-	width: 30%;
+}
+
+
+#addShipButton{
+	margin-bottom: 10px;
+	color: black;
+	border-radius: 3px;
+        width: 180px;
+}
+
+
+.plot{
+	background: url('../img/sea.jpg') ;
+	height: 29px;
+	width: 29px;
+        margin: 1px;
+}
+
+
+.plotSelected{
+	background: url('../img/ship.png')  ;
+	height: 29px;
+	width: 29px;
+        margin: 1px;
 }
