@@ -4,7 +4,7 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
-<html ng-app>
+<html ng-app   ng-controller="addShipCtrl">
     <head>
         <title>Ahoy  {{capName}}!!!</title>
         <meta charset="UTF-8">
@@ -18,14 +18,14 @@ and open the template in the editor.
         <script src="js/bootstrap.min.js"></script>
         <script src="js/addShip.js"></script>
     </head>
-    <body  ng-controller="addShipCtrl">
+    <body>
         <div  class="container">
             <div class="row">
                 <form>
                     <div id="nameDiv" class="centreBlock">
                         <h1>Welcome to the Battleship</h1>
                         <br/>
-                        <span>Captain's  Name&nbsp;&nbsp;:&nbsp;&nbsp; </span><span> <input type="text" placeholder="Monkey D. Luffy" ng-model="capName"/></span>
+                        <span>Captain's  Name&nbsp;&nbsp;:&nbsp;&nbsp; </span><span> <input type="text" ng-model="capName"/></span>
                         <br/><br/><br/><br/>
                         <span>Board Size &nbsp;&nbsp;:&nbsp;&nbsp; </span><span><input type="number" ng-model="boardSize" ng-change="makeTable()"/></span>
                     </div>

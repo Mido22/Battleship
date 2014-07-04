@@ -1,5 +1,6 @@
 function addShipCtrl($scope) {
     $scope.boardSize = 16;
+    $scope.capName = "Monkey D. Luffy";
     var boardSize;
 
     $scope.makeTable = function() {
@@ -40,8 +41,8 @@ function addShipCtrl($scope) {
     };
 
     $scope.showAlert = function(event) {
-        alert("hi");
-//        alert(event.target.id);
+    //    alert("hi");
+        alert(event.target.id);
     }
 
     $scope.makeTable();
