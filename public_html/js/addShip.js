@@ -1,8 +1,11 @@
-function addShipCtrl($scope) {
+function addShipCtrl($scope, $compile) {
     $scope.boardSize = 16;
     $scope.capName = "Monkey D. Luffy";
     var boardSize;
+    $scope.currentShip = [];
+    $scope.shipList = [];
 
+    // for creating board
     $scope.makeTable = function() {
         $("#board").empty();
         var table = ele(1);
@@ -19,8 +22,12 @@ function addShipCtrl($scope) {
             table.appendChild(row);
         }
         $("#board").append(table);
+        $compile(table)($scope);// compiling so ng-click would work
+        $scope.currentShip = [];
+        $scope.shipList = [];
     };
 
+    //shorthand for creating HTML elements
     ele = function(num) {
         if (num === 1)
             return document.createElement('table');
@@ -32,7 +39,7 @@ function addShipCtrl($scope) {
             var td = document.createElement('td');
             var sea = document.createElement('button');
             $(sea).addClass("plot");
-            sea.setAttribute("ng-click", "showAlert($event)")
+            sea.setAttribute("ng-click", "addPoint($event)")
             td.appendChild(sea);
             return td;
         }
@@ -40,11 +47,20 @@ function addShipCtrl($scope) {
         return document.createElement('div');
     };
 
-    $scope.showAlert = function(event) {
-    //    alert("hi");
-        alert(event.target.id);
+    // make selection possible
+    $scope.addPoint = function(event) {
+//        alert("hi");
+//        alert(event.target.id);
+        var button = $(event.target);
+        if (button.hasClass('ship')) {
+        } else {
+            if ($scope.currentShip.length === 0) {
+                $scope.currentShip.push($(button).parent('td').attr('id'));
+                alert('$scope.currentShip=' + $scope.currentShip);
+            }
+        }
+        button.toggleClass('ship');
     }
-
     $scope.makeTable();
 }
 
