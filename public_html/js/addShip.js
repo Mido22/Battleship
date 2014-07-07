@@ -46,42 +46,69 @@ function addShipCtrl($scope, $compile) {
 
         return document.createElement('div');
     };
-    
-    pointClose= function(point, arry, direction){
-        // direction 1- vertical 0-either 2- horizondal
-        if(direction===0){
-            if((arry[0]-point)%$scope.boardSize===0 || (arry[0]-point)===1)
-                return true;
-            if((arry[0]-point)%$scope.boardSize===0 || (arry[0]-point)===1)
+
+    // adding your selected ship to list.
+    $scope.addShip = function() {
+        if ($scope.currentShip.length === 0) {
+            alert("Sorry, our radar cannot detect your well hidden sub...");
+        } else if ($scope.currentShip.length === 1) {
+            alert("Sorry, our science has not advanced enough to let us make one man submarine... ");
+        } else {
+            $scope.shipList.push($scope.currentShip);
+            $.each($scope.currentShip, function(i, val) {
+                $('#'+val).children('button').removeClass('ship');                
+            });
+            $scope.currentShip=[];
         }
-        return false;
     }
 
     // make selection possible
     $scope.addPoint = function(event) {
-//        alert("hi");
-//        alert(event.target.id);
         var button = $(event.target);
-        var point = $(button).parent('td').attr('id') ;
-        alert("point selected="+point);
+        var point = $(button).parent('td').attr('id');
         if (button.hasClass('ship')) {
+            //code for possible unselection
+            if ($scope.currentShip[0] === point) {
+                $scope.currentShip.shift();
+                button.removeClass('ship');
+            }
+
+            if ($scope.currentShip[$scope.currentShip.length - 1] === point) {
+                $scope.currentShip.pop();
+                button.removeClass('ship');
+
+            }
             //code for possible unselection
         } else {
             //code for possible selection
             if ($scope.currentShip.length === 0) {
                 $scope.currentShip.push($(button).parent('td').attr('id'));
-                alert('$scope.currentShip=' + $scope.currentShip);
-            }else if($scope.currentShip.length === 1) {
-                if((arry[0]-point)%$scope.boardSize===0 || (arry[0]-point)===1){
-                    
+                button.addClass('ship');
+            } else if ($scope.currentShip.length === 1) {
+                if (($scope.currentShip[0] - point) === $scope.boardSize || ($scope.currentShip[0] - point) === 1) {
+                    $scope.currentShip.unshift(point);
+                    button.addClass('ship');
+                }
+                if ((point - $scope.currentShip[0]) === $scope.boardSize || (point - $scope.currentShip[0]) === 1) {
+                    $scope.currentShip.push(point);
+                    button.addClass('ship');
+                }
+            } else {
+                if (($scope.currentShip[0] - point) === $scope.currentShip[1] - $scope.currentShip[0]) {
+                    $scope.currentShip.unshift(point);
+                    button.addClass('ship');
+                }
+                if ((point - $scope.currentShip[$scope.currentShip.length - 1]) === $scope.currentShip[1] - $scope.currentShip[0]) {
+                    $scope.currentShip.push(point);
+                    button.addClass('ship');
                 }
             }
+            //code for possible selection
         }
-        button.toggleClass('ship');
     }
-    
-    
-    
+
+
+
     //Board initialized.
     $scope.makeTable();
 }
